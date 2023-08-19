@@ -12,7 +12,7 @@ class Workout(Base):
     slices : Mapped[List["Slice"]] = relationship(back_populates="workout")
 
     def __repr__(self):
-        return f'(id: {self.id} name: {self.name} timestamp: {self.timestamp})'
+        return f'WORKOUT: (id: {self.id} name: {self.name} timestamp: {self.timestamp}); '
 
 class Exercise(Base):
     __tablename__= "exercises"
@@ -20,7 +20,7 @@ class Exercise(Base):
     name = mapped_column(String)
 
     def __repr__(self):
-        return f'(id: {self.id} name: {self.name})'
+        return f'EXERCISE: (id: {self.id} name: {self.name}); '
 
 class Slice(Base):
     __tablename__= "slices"
@@ -32,7 +32,7 @@ class Slice(Base):
     sets: Mapped[List["Set"]] = relationship(back_populates="slice")
 
     def __repr__(self):
-        return f'(id: {self.id} exercise: {self.exercise} workout: {self.workout})'
+        return f'SLICE: (id: {self.id} exercise: {self.exercise} workout: {self.workout}); '
 
 class Set(Base):
     __tablename__= "sets"
@@ -43,7 +43,7 @@ class Set(Base):
     slice : Mapped["Slice"] = relationship(back_populates="sets")
 
     def __repr__(self):
-        return f'(id: {self.id} reps: {self.reps} weight: {self.weight})'
+        return f'SET: (id: {self.id} reps: {self.reps} weight: {self.weight}); '
     #reference to parent slice id
 
 #Create the tables to create fresh database
