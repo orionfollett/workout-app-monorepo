@@ -49,50 +49,5 @@ class Set(Base):
 #Create the tables to create fresh database
 #Base.metadata.create_all(engine)
 
-# #exercises
-# pushups = Exercise(name="Pushups")
-# pullups = Exercise(name="Pullups")
-# overhead_press = Exercise(name="Overhead Press")
-# bent_over_rows = Exercise(name="Barbell Bent Over Rows")
-
-# #sets
-# pu_set1 = Set(reps=10)
-# pu_set2 = Set(reps=8)
-# plu_set1 = Set(reps=7)
-# plu_set2 = Set(reps=6)
-# plu_set3 = Set(reps=5)
-
-# #slices
-# pushups_slice = Slice()
-# pushups_slice.exercise = pushups
-# pushups_slice.sets.append(pu_set1)
-# pushups_slice.sets.append(pu_set2)
-
-# pullups_slice = Slice()
-# pullups_slice.exercise = pullups
-# pullups_slice.sets.append(plu_set1)
-# pullups_slice.sets.append(plu_set2)
-# pullups_slice.sets.append(plu_set3)
-
-# #workout
-# workout = Workout(name="first workout", timestamp=datetime.now())
-# workout.slices.append(pushups_slice)
-# workout.slices.append(pullups_slice)
-
-
-
-# session.add_all([pushups, pullups, overhead_press, bent_over_rows])
-# session.add_all([pu_set1, pu_set2, plu_set1, plu_set2, plu_set3])
-# session.add_all([pushups_slice, pullups_slice])
-# session.add(workout)
-
-# session.flush()
-# session.commit()
-
-#session = Session(engine)
-# result = session.get(Workout, 1)
-# print(result.name if not result is None else "no result")
-# #select(Workout).where(True)
-# session.close()
 
 print("Database session started.")
