@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine , Integer, String, DateTime, Float, ForeignKey, select
 from typing import List
-from sqlalchemy.orm import declarative_base, relationship, Mapped, Session,mapped_column
+from sqlalchemy.orm import declarative_base, relationship, Mapped, Session ,mapped_column
 from datetime import datetime
 Base = declarative_base()
 
@@ -12,12 +12,15 @@ class Workout(Base):
     slices : Mapped[List["Slice"]] = relationship(back_populates="workout")
 
     def __repr__(self):
-        return f'id: {self.id} timestamp: {self.timestampe}'
+        return f'(id: {self.id} name: {self.name} timestamp: {self.timestamp})'
 
 class Exercise(Base):
     __tablename__= "exercises"
     id = mapped_column(Integer, primary_key=True)
     name = mapped_column(String)
+
+    def __repr__(self):
+        return f'(id: {self.id} name: {self.name})'
 
 class Slice(Base):
     __tablename__= "slices"
@@ -28,6 +31,9 @@ class Slice(Base):
     exercise : Mapped["Exercise"] = relationship()
     sets: Mapped[List["Set"]] = relationship(back_populates="slice")
 
+    def __repr__(self):
+        return f'(id: {self.id} exercise: {self.exercise} workout: {self.workout})'
+
 class Set(Base):
     __tablename__= "sets"
     id = mapped_column(Integer, primary_key=True)
@@ -35,11 +41,13 @@ class Set(Base):
     weight = mapped_column(Float)
     slice_id : Mapped[int] = mapped_column(ForeignKey("slices.id"))
     slice : Mapped["Slice"] = relationship(back_populates="sets")
+
+    def __repr__(self):
+        return f'(id: {self.id} reps: {self.reps} weight: {self.weight})'
     #reference to parent slice id
 
-
-engine = create_engine("sqlite:///test.db", echo=True)
-Base.metadata.create_all(engine)
+#Create the tables to create fresh database
+#Base.metadata.create_all(engine)
 
 # #exercises
 # pushups = Exercise(name="Pushups")
@@ -81,8 +89,10 @@ Base.metadata.create_all(engine)
 # session.flush()
 # session.commit()
 
-session = Session(engine)
+#session = Session(engine)
+# result = session.get(Workout, 1)
+# print(result.name if not result is None else "no result")
+# #select(Workout).where(True)
+# session.close()
 
-#select(Workout).where(True)
-session.close()
-
+print("Database session started.")
