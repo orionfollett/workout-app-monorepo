@@ -1,7 +1,8 @@
-from ariadne import QueryType
+from ariadne import QueryType, MutationType
 import db.queries
 import db.tables
 
+mutation = MutationType()
 query = QueryType()
 
 @query.field("exercise")
