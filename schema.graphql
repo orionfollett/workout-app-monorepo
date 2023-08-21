@@ -1,0 +1,7 @@
+type Query {
+    exercise(id : Int!): String!
+}
+
+type Mutation{
+    logout: Boolean!
+}

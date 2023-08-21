@@ -1,4 +1,13 @@
 # sqlalchemy-graphql-starter
 
 source ./.venv/bin/activate
-python entry.py
+uvicorn app:app
+
+## /db
+- Database layer, uses SQL Alchemy.
+- Provides queries and table objects to interact with database
+
+## /api
+- Defines graphql api and hooks up resolvers and mutations to the db layer
+
+
