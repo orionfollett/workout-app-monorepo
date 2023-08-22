@@ -84,13 +84,36 @@ class DBSession():
         self.session.flush()
         self.session.commit()
 
-    def deleteExercise(self, exercise_id: int):
+    def deleteExercise(self, exercise_id: int, deleteAllSlices=False):
+        slices = self.session.execute(select(tables.Slice).where(tables.Slice.exercise_id == exercise_id))
+        if slices and not deleteAllSlices:
+            raise Exception(f'Cannot delete exercise with valid slices!')
+        
         e = self.session.get(tables.Exercise, exercise_id)
         if e is None:
             raise Exception(f'Invalid exercise_id supplied to deleteExercise: {exercise_id}')
+        
+        for s in slices:
+            self.deleteSlice(s[0].id)
+
         self.session.delete(e)
         self.session.flush()
         self.session.commit()
+
+    def getSlicesOnWorkout(self, workout_id):
+        slices = self.session.execute(select(tables.Slice).where(tables.Slice.workout_id == workout_id))
+        result = map(lambda x : x[0], slices)
+        return result
+
+    def getAllWorkouts(self):
+        workouts = self.session.execute(select(tables.Workout))
+        result = map(lambda x: x[0], workouts)
+        return result
+
+    def getAllExercises(self):
+        e = self.session.execute(select(tables.Exercise))
+        result = map(lambda x: x[0], e)
+        return result
 
     def __del__(self):
         self.session.close()

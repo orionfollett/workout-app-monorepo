@@ -1,4 +1,4 @@
-# sqlalchemy-graphql-starter
+# Workout API
 
 source ./.venv/bin/activate
 uvicorn app:app

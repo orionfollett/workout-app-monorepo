@@ -1,7 +1,45 @@
 type Query {
-    exercise(id : Int!): String!
+    exercise(id : Int!): Exercise
+    slice(id: Int!): Slice
+    workout(id: Int!): Workout
+    allWorkouts:[Workout]
+    allExercise: [Exercise]
 }
 
 type Mutation{
-    logout: Boolean!
+    #add
+    addExercise(name: String!): Boolean
+    addSlice( workout_id: Int!, exercise_id: Int!): Boolean
+    addWorkout(name:String!): Boolean
+    addSet(reps:Int!, weight:Float!, slice_id:Int!):Boolean
+
+    #delete
+    deleteWorkout(id:Int!):Boolean
+    deleteExercise(id: Int!): Boolean
+    deleteSlice(id: Int!): Boolean
+    deleteSet(id: Int!): Boolean
+}
+
+ type Workout{
+    id: Int!
+    name: String!
+    slices: [Slice]
+    timestamp: String!
+ }
+
+type Slice{
+    id: Int!
+    exercise: Exercise!
+    sets:[Set]
+}
+
+type Set{
+    weight: Float!
+    reps: Int!
+    id: Int!
+}
+
+type Exercise{
+    id: Int!
+    name: String!
 }
