@@ -94,3 +94,10 @@ def resolve_all_workouts(*_):
 def resolve_all_exercise(*_):
     exercises = session.getAllExercises()
     return map(lambda e: resolve_exercise(id=e.id), exercises)
+
+#TODO come up with a better pattern instead of reusing the resolvers to save on repeated GET calls
+#probably need a home baked SQL function plus mapper
+
+#then start working on React frontend in the same repo
+
+#or deploy your your endpoint so that react frontend can consume it
