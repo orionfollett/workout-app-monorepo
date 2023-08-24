@@ -1,0 +1,9 @@
+.btn-group {
+    display: flex;
+    position: sticky;
+    top:0;
+  }
+  
+  .single-button {
+    flex: 1
+  }

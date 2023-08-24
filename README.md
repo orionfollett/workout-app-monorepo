@@ -1,6 +1,10 @@
 # Monorepo structure
 
-# Workout API - a uvicorn ariadne graphQL API
+# Workout API
+A uvicorn ariadne graphQL API
+
+Quickstart:
+
 cd workout-api
 python3 -m pipenv shell
 uvicorn app:app
@@ -12,4 +16,6 @@ uvicorn app:app
 ## /api
 - Defines graphql api and hooks up resolvers and mutations to the db layer
 
-# Workout-Web - a React front end web application that consumes workout API
+# Workout-Web
+React front end web application that consumes workout API
+
