@@ -7,12 +7,16 @@ A uvicorn ariadne graphQL API
 Quickstart:
 
 cd workout-api
+
 python3 -m pipenv shell
+
 uvicorn app:app
 
 To install new packages:
+
 python3 -m pipenv shell
-pip3 install <package name>
+
+pip3 install "package name"
 
 ## /db
 
