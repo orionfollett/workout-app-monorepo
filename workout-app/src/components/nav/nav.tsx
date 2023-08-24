@@ -4,8 +4,10 @@ import { Plan } from "../plan/plan";
 import { Analyze } from "../analyze/analyze";
 import { Track } from "../track/track";
 import './nav.css'
+
 export function Nav(){
     const [navState, setValue] = React.useState<string | null>('Plan');
+    
   return <>
     <ToggleButtonGroup
       value={navState}
@@ -26,6 +28,5 @@ export function Nav(){
     {navState=="Track" && <Track/>}
     {navState=="Plan" && <Plan/>}
     {navState=="Analyze" && <Analyze/>}
-
     </>
 }
