@@ -1,15 +1,12 @@
 import { Typography } from "@mui/joy";
-
-import { gql, useQuery } from "urql";
-
-const testQuery = gql`query{allExercise{name}}`
+import { getAllExercises } from "../../services/workout-service";
 
 
 export function Analyze(){
-    const [result, reexecuteQuery] = useQuery({query: testQuery});
-    const {data, fetching, error} = result;
+
+    const {data, fetching, error} = getAllExercises();
     let content:any;
-    const test = <Typography>Loading...</Typography>;
+
     if(fetching) {
         content= <Typography>Loading...</Typography>
     }
@@ -17,7 +14,7 @@ export function Analyze(){
         content = <Typography>Error: {error?.message}</Typography>
     }
     else{
-        content = data.allExercise.map((el:any) => <Typography>{el.name}</Typography>)
+        content = data.allExercise.map((el:any) => <Typography key={el.name}>{el.name}</Typography>)
     }
 
     
