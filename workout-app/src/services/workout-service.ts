@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "urql";
+import { Query, gql, useMutation, useQuery } from "urql";
 
 const allExercisesQuery = gql`query GetAllExercises{allExercise{name}}`
 
