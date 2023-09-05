@@ -1,5 +1,13 @@
-import { Button, Typography } from "@mui/joy";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionGroup,
+  AccordionSummary,
+  Button,
+  Typography,
+} from "@mui/joy";
 import { gql, useMutation } from "urql";
+import { SliceInfo, ViewSlice } from "./view-slice";
 export function Track() {
   const addWorkoutMutation = gql`
     mutation AddWorkout($name: String!) {
@@ -13,6 +21,12 @@ export function Track() {
     executeMutation(variables);
   };
 
+  const testSlice: SliceInfo = {
+    exercise: "Bench Press",
+    reps: [10, 8, 7, 6],
+    weight: [135, 155, 175, 185],
+  };
+
   return (
     <>
       <Typography level="h1">Track</Typography>
@@ -21,6 +35,13 @@ export function Track() {
       >
         New Workout
       </Button>
+      <AccordionGroup variant="outlined">
+        <ViewSlice
+          exercise={testSlice.exercise}
+          reps={testSlice.reps}
+          weight={testSlice.weight}
+        />
+      </AccordionGroup>
     </>
   );
 }
