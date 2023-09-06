@@ -1,13 +1,8 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionGroup,
-  AccordionSummary,
-  Button,
-  Typography,
-} from "@mui/joy";
+import { AccordionGroup, Button, Typography } from "@mui/joy";
 import { gql, useMutation } from "urql";
-import { SliceInfo, ViewSlice } from "./view-slice";
+import { ViewSlice } from "./slice";
+import { SliceInfo } from "../../interfaces/workout-interfaces";
+import { ViewSets } from "./set";
 export function Track() {
   const addWorkoutMutation = gql`
     mutation AddWorkout($name: String!) {
@@ -23,8 +18,13 @@ export function Track() {
 
   const testSlice: SliceInfo = {
     exercise: "Bench Press",
-    reps: [10, 8, 7, 6],
-    weight: [135, 155, 175, 185],
+    sets: [
+      { reps: 10, weight: 135 },
+      { reps: 8, weight: 155 },
+      { reps: 8, weight: 165 },
+      { reps: 8, weight: 175 },
+      { reps: 8, weight: 185 },
+    ],
   };
 
   return (
@@ -36,11 +36,9 @@ export function Track() {
         New Workout
       </Button>
       <AccordionGroup variant="outlined">
-        <ViewSlice
-          exercise={testSlice.exercise}
-          reps={testSlice.reps}
-          weight={testSlice.weight}
-        />
+        <ViewSlice exercise={testSlice.exercise} sets={testSlice.sets}>
+          <ViewSets sets={testSlice.sets}></ViewSets>
+        </ViewSlice>
       </AccordionGroup>
     </>
   );
