@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   Typography,
 } from "@mui/joy";
-import { ViewSets } from "./set";
 import { SliceInfo } from "../../interfaces/workout-interfaces";
 import { PropsWithChildren } from "react";
 
