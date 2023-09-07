@@ -10,20 +10,23 @@ const allExercisesQuery = gql`
 `;
 
 export function getAllExercises() {
-  return useQuery({ query: allExercisesQuery })[0];
+  return genericGetRequest(allExercisesQuery);
 }
 
 const allWorkoutsQuery = gql`
   query {
     allWorkouts {
       name
+      id
     }
   }
 `;
-export function getAllWorkoutNames(): string[] {
+export function getAllWorkoutNames(): { name: string; id: number }[] {
   const data = genericGetRequest(allWorkoutsQuery);
   if (data) {
-    return data["allWorkouts"].map((x: any) => x.name);
+    return data["allWorkouts"].map((x: any) => {
+      return { name: x.name, id: x.id };
+    });
   }
   return [];
 }
@@ -51,7 +54,6 @@ const getWorkoutByIdQuery = gql`
 export function getWorkoutById(id: number): WorkoutInfo {
   const data = genericGetRequest(getWorkoutByIdQuery, { id: id });
   if (data) {
-    console.log(data);
     const workout: WorkoutInfo = {
       id: data.workout.id,
       timestamp: data.workout.timestamp,
@@ -81,7 +83,7 @@ function genericGetRequest(query: any, variables?: any) {
     variables: variables,
   })[0];
   if (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
   return data;

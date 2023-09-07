@@ -2,10 +2,7 @@ import { AccordionGroup, Typography } from "@mui/joy";
 import { ViewSets } from "./set";
 import { ViewSlice } from "./slice";
 import { SliceInfo, WorkoutInfo } from "../../interfaces/workout-interfaces";
-import {
-  getAllWorkoutNames,
-  getWorkoutById,
-} from "../../services/workout-service";
+import { getWorkoutById } from "../../services/workout-service";
 import { useParams } from "react-router-dom";
 
 // export function ViewWorkout({ workoutId }: { workoutId: number }) {

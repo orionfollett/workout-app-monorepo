@@ -21,8 +21,8 @@ export function Track() {
     executeMutation(variables);
   };
 
-  const workoutNames = getAllWorkoutNames() || [];
-
+  const workouts = getAllWorkoutNames() || [];
+  console.log(workouts);
   return (
     <>
       <Typography level="h1">Track</Typography>
@@ -33,16 +33,16 @@ export function Track() {
       </Button>
       <Typography level="h3">Past Workouts</Typography>
       <List>
-        {workoutNames.map((workoutName: string) => {
+        {workouts.map((workout) => {
           return (
             <>
               <ListItem>
                 <ListItemButton
                   component="a"
-                  href={"/workout/1"}
+                  href={"/workout/" + workout.id}
                   variant="outlined"
                 >
-                  <ListItemContent>{workoutName}</ListItemContent>
+                  <ListItemContent>{workout.name}</ListItemContent>
                 </ListItemButton>
               </ListItem>
             </>
