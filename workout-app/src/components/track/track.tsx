@@ -22,7 +22,6 @@ export function Track() {
   };
 
   const workouts = getAllWorkoutNames() || [];
-  console.log(workouts);
   return (
     <>
       <Typography level="h1">Track</Typography>
@@ -35,7 +34,7 @@ export function Track() {
       <List>
         {workouts.map((workout) => {
           return (
-            <>
+            <div key={workout.id}>
               <ListItem>
                 <ListItemButton
                   component="a"
@@ -45,7 +44,7 @@ export function Track() {
                   <ListItemContent>{workout.name}</ListItemContent>
                 </ListItemButton>
               </ListItem>
-            </>
+            </div>
           );
         })}
       </List>
