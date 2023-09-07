@@ -18,6 +18,7 @@ export function ViewSets(sets: SetsInfo) {
               onClick={function () {}}
               size="md"
               variant="outlined"
+              key={set.id}
             >
               {set.reps} reps @ {set.weight} lbs
             </Chip>

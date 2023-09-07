@@ -2,7 +2,11 @@ import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { Nav } from "./components/nav/nav";
 
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useParams,
+} from "react-router-dom";
 import { Track } from "./components/track/track";
 import { ViewWorkout } from "./components/track/workout";
 import { Plan } from "./components/plan/plan";
@@ -18,12 +22,18 @@ const router = createBrowserRouter([
     path: "/",
     element: <Nav></Nav>,
     children: [
-      { path: "/track", element: <Track></Track> },
+      {
+        path: "/track",
+        element: <Track></Track>,
+      },
       { path: "/plan", element: <Plan></Plan> },
       { path: "/analyze", element: <Analyze></Analyze> },
     ],
   },
-  //  { path: "/workout/:id", element: <ViewWorkout workoutId={}></ViewWorkout> },
+  {
+    path: "/workout/:id",
+    element: <ViewWorkout></ViewWorkout>,
+  },
 ]);
 export default function App() {
   return (

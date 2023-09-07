@@ -12,16 +12,16 @@ export function ViewSlice(slice: PropsWithChildren<SliceInfo>) {
   const weights: number[] = slice.sets.map((x) => x.weight);
 
   const repAverage = Math.round(
-    reps.reduce((sum, curr) => sum + curr) / reps.length,
+    reps.reduce((sum, curr) => sum + curr, 0) / reps.length,
   );
 
   const weightAverage = Math.round(
-    weights.reduce((sum, curr) => sum + curr) / weights.length,
+    weights.reduce((sum, curr) => sum + curr, 0) / weights.length,
   );
 
   return (
     <>
-      <Accordion>
+      <Accordion key={slice.id}>
         <AccordionSummary>
           <Typography level="title-md">
             {slice.exercise} - {reps.length} x {repAverage} @{weightAverage}

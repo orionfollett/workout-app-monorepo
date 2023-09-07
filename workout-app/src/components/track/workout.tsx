@@ -1,25 +1,32 @@
 import { AccordionGroup, Typography } from "@mui/joy";
 import { ViewSets } from "./set";
 import { ViewSlice } from "./slice";
-import { SliceInfo } from "../../interfaces/workout-interfaces";
+import { SliceInfo, WorkoutInfo } from "../../interfaces/workout-interfaces";
+import {
+  getAllWorkoutNames,
+  getWorkoutById,
+} from "../../services/workout-service";
+import { useParams } from "react-router-dom";
 
-export interface WorkoutInfo {
-  name: string;
-  slices: SliceInfo[];
-}
-export function ViewWorkout(workoutId: number) {
-  const workout: WorkoutInfo = { name: "hello", slices: [] };
+// export function ViewWorkout({ workoutId }: { workoutId: number }) {
+export function ViewWorkout() {
+  const id = +(useParams().id || "0");
+  const workout: WorkoutInfo = getWorkoutById(id);
   return (
     <>
-      <Typography level="title-md">{workout.name}</Typography>
+      <Typography level="title-md">{workout?.name}</Typography>
       <AccordionGroup variant="outlined">
-        {workout.slices.map((slice) => {
+        {workout?.slices.map((slice) => {
           return (
-            <>
-              <ViewSlice exercise={slice.exercise} sets={slice.sets}>
+            <div key={slice.id}>
+              <ViewSlice
+                id={slice.id}
+                exercise={slice.exercise}
+                sets={slice.sets}
+              >
                 <ViewSets sets={slice.sets}></ViewSets>
               </ViewSlice>
-            </>
+            </div>
           );
         })}
       </AccordionGroup>

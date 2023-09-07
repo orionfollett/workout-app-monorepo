@@ -39,7 +39,7 @@ export function Track() {
               <ListItem>
                 <ListItemButton
                   component="a"
-                  href="/workout/:id"
+                  href={"/workout/1"}
                   variant="outlined"
                 >
                   <ListItemContent>{workoutName}</ListItemContent>
