@@ -1,11 +1,9 @@
 import {
-  AccordionGroup,
   Button,
   List,
   ListItem,
   ListItemButton,
   ListItemContent,
-  ListItemDecorator,
   Typography,
 } from "@mui/joy";
 import { gql, useMutation } from "urql";
@@ -35,12 +33,16 @@ export function Track() {
       </Button>
       <Typography level="h3">Past Workouts</Typography>
       <List>
-        {workoutNames.map((workout: string) => {
+        {workoutNames.map((workoutName: string) => {
           return (
             <>
               <ListItem>
-                <ListItemButton variant="outlined">
-                  <ListItemContent>{workout}</ListItemContent>
+                <ListItemButton
+                  component="a"
+                  href="/workout/:id"
+                  variant="outlined"
+                >
+                  <ListItemContent>{workoutName}</ListItemContent>
                 </ListItemButton>
               </ListItem>
             </>

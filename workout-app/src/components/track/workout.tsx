@@ -7,7 +7,8 @@ export interface WorkoutInfo {
   name: string;
   slices: SliceInfo[];
 }
-export function ViewWorkout(workout: WorkoutInfo) {
+export function ViewWorkout(workoutId: number) {
+  const workout: WorkoutInfo = { name: "hello", slices: [] };
   return (
     <>
       <Typography level="title-md">{workout.name}</Typography>

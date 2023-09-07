@@ -1,40 +1,54 @@
 import { Button, ToggleButtonGroup } from "@mui/joy";
-import React from "react";
-import { Plan } from "../plan/plan";
-import { Analyze } from "../analyze/analyze";
-import { Track } from "../track/track";
 import "./nav.css";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 export function Nav() {
-  const [navState, setValue] = React.useState<string | null>("Plan");
+  const navigate = useNavigate();
+  function track() {
+    navigate("/track");
+  }
+  function plan() {
+    navigate("/plan");
+  }
+  function analyze() {
+    navigate("/analyze");
+  }
 
   return (
     <>
+      <Outlet />
       <ToggleButtonGroup
-        value={navState}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
         variant="solid"
         size="lg"
         color="primary"
         className="btn-group"
         sx={{ "--ButtonGroup-radius": "0px" }}
       >
-        <Button className="single-button" value="Track">
+        <Button
+          component="button"
+          value="track"
+          className="single-button"
+          onClick={track}
+        >
           Track
         </Button>
-        <Button className="single-button" value="Plan">
-          Plan
-        </Button>
-        <Button className="single-button" value="Analyze">
+        <Button
+          component="button"
+          value="analyze"
+          className="single-button"
+          onClick={analyze}
+        >
           Analyze
         </Button>
+        <Button
+          component="button"
+          value="plan"
+          className="single-button"
+          onClick={plan}
+        >
+          Plan
+        </Button>
       </ToggleButtonGroup>
-
-      {navState == "Track" && <Track />}
-      {navState == "Plan" && <Plan />}
-      {navState == "Analyze" && <Analyze />}
     </>
   );
 }
