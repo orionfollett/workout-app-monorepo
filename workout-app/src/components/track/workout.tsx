@@ -1,25 +1,17 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  AccordionGroup,
-  ListItem,
-  ListItemButton,
-  ListItemContent,
-  Sheet,
-  Typography,
-} from "@mui/joy";
+import { AccordionGroup, Sheet, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import { useParams } from "react-router-dom";
-import { WorkoutInfo } from "../../interfaces/workout-interfaces";
 import { getWorkoutById } from "../../services/workout-service";
+import { CreateSlice } from "./new-slice";
 import { ViewSets } from "./set";
 import { ViewSlice } from "./slice";
 
-// export function ViewWorkout({ workoutId }: { workoutId: number }) {
 export function ViewWorkout() {
   const id = +(useParams().id || "0");
-  const workout: WorkoutInfo = getWorkoutById(id);
+  const [workout, refreshWorkout] = getWorkoutById(id);
+  const isApiError = workout == undefined;
   const formattedDate = DateTime.fromMillis(
-    Date.parse(workout.timestamp),
+    Date.parse(workout?.timestamp || ""),
   ).toLocaleString();
 
   return (
@@ -63,24 +55,10 @@ export function ViewWorkout() {
             </div>
           );
         })}
-        <ListItem>
-          <ListItemButton
-            variant="outlined"
-            sx={{}}
-            onClick={() => {
-              alert("pressed");
-            }}
-          >
-            <ListItemContent
-              sx={{
-                textAlign: "center",
-                verticalAlign: "center",
-              }}
-            >
-              <AddCircleIcon />
-            </ListItemContent>
-          </ListItemButton>
-        </ListItem>
+        <CreateSlice
+          workoutId={id}
+          refreshWorkout={refreshWorkout}
+        ></CreateSlice>
       </AccordionGroup>
     </Sheet>
   );

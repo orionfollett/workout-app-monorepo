@@ -1,18 +1,6 @@
 import { gql, useMutation, useQuery } from "urql";
 import { WorkoutInfo } from "../interfaces/workout-interfaces";
 
-const allExercisesQuery = gql`
-  query GetAllExercises {
-    allExercise {
-      name
-    }
-  }
-`;
-
-export function getAllExercises() {
-  return genericGetRequest(allExercisesQuery);
-}
-
 const allWorkoutsQuery = gql`
   query {
     allWorkouts {
@@ -34,7 +22,7 @@ export function getAllWorkoutNames(): [{ name: string; id: number }[], any] {
     }
     return [[], () => {}];
   } catch (e) {
-    return [[], null];
+    return [[], () => {}];
   }
 }
 
@@ -58,7 +46,7 @@ const getWorkoutByIdQuery = gql`
     }
   }
 `;
-export function getWorkoutById(id: number): WorkoutInfo {
+export function getWorkoutById(id: number): [WorkoutInfo | undefined, any] {
   try {
     const [data, refresh] = genericGetRequest(getWorkoutByIdQuery, { id: id });
     const workout: WorkoutInfo = {
@@ -80,9 +68,9 @@ export function getWorkoutById(id: number): WorkoutInfo {
       }),
     };
 
-    return workout;
+    return [workout, refresh];
   } catch (e) {
-    return { name: "", slices: [], timestamp: "", id: -1 };
+    return [undefined, () => {}];
   }
 }
 
@@ -116,4 +104,42 @@ function genericGetRequest(query: any, variables?: any) {
     reexecuteQuery({ requestPolicy: "network-only" });
   };
   return [data, refresh];
+}
+
+const addSliceMutation = gql`
+  mutation AddSlice($workoutId: Int!, $exerciseId: Int!) {
+    addSlice(workout_id: $workoutId, exercise_id: $exerciseId)
+  }
+`;
+export function addSliceBuilder() {
+  const [result, executeMutation] = useMutation(addSliceMutation);
+  const executeAddSlice = (workoutId: number, exerciseId: number) => {
+    const variables = { workoutId: workoutId, exerciseId: exerciseId };
+    executeMutation(variables);
+  };
+
+  return executeAddSlice;
+}
+
+const allExercises = gql`
+  query {
+    allExercise {
+      id
+      name
+    }
+  }
+`;
+
+export function getAllExercises(): [{ id: number; name: string }[], any] {
+  try {
+    const [data, refresh] = genericGetRequest(allExercises);
+    return [
+      data.allExercise.map((exercise: any) => {
+        return { id: exercise.id, name: exercise.name };
+      }),
+      refresh,
+    ];
+  } catch (e) {
+    return [[], () => {}];
+  }
 }
