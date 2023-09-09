@@ -50,7 +50,11 @@ export function ViewWorkout() {
                 exercise={slice.exercise}
                 sets={slice.sets}
               >
-                <ViewSets sets={slice.sets}></ViewSets>
+                <ViewSets
+                  sets={slice.sets}
+                  sliceId={slice.id}
+                  refreshSets={refreshWorkout}
+                ></ViewSets>
               </ViewSlice>
             </div>
           );

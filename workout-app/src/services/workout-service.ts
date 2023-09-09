@@ -143,3 +143,18 @@ export function getAllExercises(): [{ id: number; name: string }[], any] {
     return [[], () => {}];
   }
 }
+
+const addSetMutation = gql`
+  mutation AddSet($sliceId: Int!, $reps: Int!, $weight: Float!) {
+    addSet(slice_id: $sliceId, reps: $reps, weight: $weight)
+  }
+`;
+export function addSetBuilder() {
+  const [result, executeMutation] = useMutation(addSetMutation);
+  const executeAddSet = (sliceId: number, reps: number, weight: number) => {
+    const variables = { sliceId: sliceId, reps: reps, weight: weight };
+    executeMutation(variables);
+  };
+
+  return executeAddSet;
+}
