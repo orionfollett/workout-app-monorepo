@@ -1,5 +1,5 @@
-import { gql, useQuery } from "urql";
-import { SliceInfo, WorkoutInfo } from "../interfaces/workout-interfaces";
+import { gql, useMutation, useQuery } from "urql";
+import { WorkoutInfo } from "../interfaces/workout-interfaces";
 
 const allExercisesQuery = gql`
   query GetAllExercises {
@@ -21,14 +21,21 @@ const allWorkoutsQuery = gql`
     }
   }
 `;
-export function getAllWorkoutNames(): { name: string; id: number }[] {
-  const data = genericGetRequest(allWorkoutsQuery);
-  if (data) {
-    return data["allWorkouts"].map((x: any) => {
-      return { name: x.name, id: x.id };
-    });
+export function getAllWorkoutNames(): [{ name: string; id: number }[], any] {
+  try {
+    const [data, refresh] = genericGetRequest(allWorkoutsQuery);
+    if (data) {
+      return [
+        data["allWorkouts"].map((x: any) => {
+          return { name: x.name, id: x.id };
+        }),
+        refresh,
+      ];
+    }
+    return [[], () => {}];
+  } catch (e) {
+    return [[], null];
   }
-  return [];
 }
 
 const getWorkoutByIdQuery = gql`
@@ -52,8 +59,8 @@ const getWorkoutByIdQuery = gql`
   }
 `;
 export function getWorkoutById(id: number): WorkoutInfo {
-  const data = genericGetRequest(getWorkoutByIdQuery, { id: id });
-  if (data) {
+  try {
+    const [data, refresh] = genericGetRequest(getWorkoutByIdQuery, { id: id });
     const workout: WorkoutInfo = {
       id: data.workout.id,
       timestamp: data.workout.timestamp,
@@ -66,25 +73,47 @@ export function getWorkoutById(id: number): WorkoutInfo {
             return {
               id: set.id,
               weight: set.weight,
-              reps: set.weight,
+              reps: set.reps,
             };
           }),
         };
       }),
     };
+
     return workout;
+  } catch (e) {
+    return { name: "", slices: [], timestamp: "", id: -1 };
   }
-  return { name: "", slices: [], timestamp: "", id: -1 };
+}
+
+const addWorkoutMutation = gql`
+  mutation AddWorkout($name: String!) {
+    addWorkout(name: $name)
+  }
+`;
+export function addWorkoutBuilder() {
+  const [result, executeMutation] = useMutation(addWorkoutMutation);
+  const executeAddWorkout = (newName: string) => {
+    const variables = { name: newName };
+    executeMutation(variables);
+  };
+
+  return executeAddWorkout;
 }
 
 function genericGetRequest(query: any, variables?: any) {
-  const { data, fetching, error } = useQuery({
+  const [result, reexecuteQuery] = useQuery({
     query: query,
     variables: variables,
-  })[0];
+  });
+  const { data, fetching, error } = result;
   if (error) {
     console.error(error);
-    return null;
+    throw error;
   }
-  return data;
+  const refresh = () => {
+    // Refetch the query and skip the cache
+    reexecuteQuery({ requestPolicy: "network-only" });
+  };
+  return [data, refresh];
 }

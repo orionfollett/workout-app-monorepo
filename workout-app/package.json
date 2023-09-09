@@ -13,9 +13,12 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.8",
+    "@mui/icons-material": "^5.14.8",
     "@mui/joy": "^5.0.0-beta.5",
+    "@mui/material": "^5.14.8",
     "graphql": "^16.8.0",
     "localforage": "^1.10.0",
+    "luxon": "^3.4.3",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,6 +27,7 @@
     "urql": "^4.0.5"
   },
   "devDependencies": {
+    "@types/luxon": "^3.3.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

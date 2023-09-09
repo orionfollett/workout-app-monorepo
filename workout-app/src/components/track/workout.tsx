@@ -1,17 +1,54 @@
-import { AccordionGroup, Typography } from "@mui/joy";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {
+  AccordionGroup,
+  ListItem,
+  ListItemButton,
+  ListItemContent,
+  Sheet,
+  Typography,
+} from "@mui/joy";
+import { DateTime } from "luxon";
+import { useParams } from "react-router-dom";
+import { WorkoutInfo } from "../../interfaces/workout-interfaces";
+import { getWorkoutById } from "../../services/workout-service";
 import { ViewSets } from "./set";
 import { ViewSlice } from "./slice";
-import { SliceInfo, WorkoutInfo } from "../../interfaces/workout-interfaces";
-import { getWorkoutById } from "../../services/workout-service";
-import { useParams } from "react-router-dom";
 
 // export function ViewWorkout({ workoutId }: { workoutId: number }) {
 export function ViewWorkout() {
   const id = +(useParams().id || "0");
   const workout: WorkoutInfo = getWorkoutById(id);
+  const formattedDate = DateTime.fromMillis(
+    Date.parse(workout.timestamp),
+  ).toLocaleString();
+
   return (
-    <>
-      <Typography level="title-md">{workout?.name}</Typography>
+    <Sheet
+      sx={{
+        maxWidth: "100%",
+        maxHeight: "90%",
+        overflow: "auto",
+      }}
+    >
+      <Typography
+        padding="0"
+        top="0"
+        level="h2"
+        variant="soft"
+        textAlign="center"
+        margin="0"
+      >
+        {workout?.name}
+      </Typography>
+      <Typography
+        padding="0"
+        margin="0"
+        level="h4"
+        variant="soft"
+        textAlign="center"
+      >
+        {formattedDate}
+      </Typography>
       <AccordionGroup variant="outlined">
         {workout?.slices.map((slice) => {
           return (
@@ -26,7 +63,25 @@ export function ViewWorkout() {
             </div>
           );
         })}
+        <ListItem>
+          <ListItemButton
+            variant="outlined"
+            sx={{}}
+            onClick={() => {
+              alert("pressed");
+            }}
+          >
+            <ListItemContent
+              sx={{
+                textAlign: "center",
+                verticalAlign: "center",
+              }}
+            >
+              <AddCircleIcon />
+            </ListItemContent>
+          </ListItemButton>
+        </ListItem>
       </AccordionGroup>
-    </>
+    </Sheet>
   );
 }

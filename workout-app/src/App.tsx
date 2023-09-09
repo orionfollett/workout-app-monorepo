@@ -1,16 +1,12 @@
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { Nav } from "./components/nav/nav";
 
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useParams,
-} from "react-router-dom";
+import { Analyze } from "./components/analyze/analyze";
+import { Plan } from "./components/plan/plan";
 import { Track } from "./components/track/track";
 import { ViewWorkout } from "./components/track/workout";
-import { Plan } from "./components/plan/plan";
-import { Analyze } from "./components/analyze/analyze";
 
 const client = new Client({
   url: "http://127.0.0.1:8000/graphql",
@@ -28,11 +24,11 @@ const router = createBrowserRouter([
       },
       { path: "/plan", element: <Plan></Plan> },
       { path: "/analyze", element: <Analyze></Analyze> },
+      {
+        path: "/workout/:id",
+        element: <ViewWorkout></ViewWorkout>,
+      },
     ],
-  },
-  {
-    path: "/workout/:id",
-    element: <ViewWorkout></ViewWorkout>,
   },
 ]);
 export default function App() {

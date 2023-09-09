@@ -1,52 +1,40 @@
 import {
-  Button,
   List,
   ListItem,
   ListItemButton,
   ListItemContent,
   Typography,
 } from "@mui/joy";
-import { gql, useMutation } from "urql";
 import { getAllWorkoutNames } from "../../services/workout-service";
+import { CreateWorkout } from "./new-workout";
+
 export function Track() {
-  const addWorkoutMutation = gql`
-    mutation AddWorkout($name: String!) {
-      addWorkout(name: $name)
-    }
-  `;
-  const [result, executeMutation] = useMutation(addWorkoutMutation);
+  const [workouts, refreshWorkouts] = getAllWorkoutNames();
 
-  const executeAddWorkout = (newName: string) => {
-    const variables = { name: newName };
-    executeMutation(variables);
-  };
-
-  const workouts = getAllWorkoutNames() || [];
   return (
     <>
       <Typography level="h1">Track</Typography>
-      <Button
-        onClick={() => executeAddWorkout("hello from workout service in react")}
-      >
-        New Workout
-      </Button>
+      <CreateWorkout refreshWorkouts={refreshWorkouts}></CreateWorkout>
       <Typography level="h3">Past Workouts</Typography>
+
       <List>
-        {workouts.map((workout) => {
-          return (
-            <div key={workout.id}>
-              <ListItem>
-                <ListItemButton
-                  component="a"
-                  href={"/workout/" + workout.id}
-                  variant="outlined"
-                >
-                  <ListItemContent>{workout.name}</ListItemContent>
-                </ListItemButton>
-              </ListItem>
-            </div>
-          );
-        })}
+        {workouts
+          .map((workout: { name: string; id: number }) => {
+            return (
+              <div key={workout.id}>
+                <ListItem>
+                  <ListItemButton
+                    component="a"
+                    href={"/workout/" + workout.id}
+                    variant="outlined"
+                  >
+                    <ListItemContent>{workout.name}</ListItemContent>
+                  </ListItemButton>
+                </ListItem>
+              </div>
+            );
+          })
+          .reverse()}
       </List>
     </>
   );
