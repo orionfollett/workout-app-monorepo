@@ -30,3 +30,7 @@ pip3 install "package name"
 # Workout-Web
 
 React front end web application that consumes workout API
+
+Stick docker file in a folder called docker at the root:
+docker build . -t orion-workout-api -f ./docker/backend.dockerfile 
+docker run --rm orion-workout-api  
