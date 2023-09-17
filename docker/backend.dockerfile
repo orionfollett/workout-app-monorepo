@@ -14,8 +14,8 @@ RUN pip install pipenv
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
 
 # Install python dependencies in /.venv
-COPY ./workout-api/Pipfile .
-COPY ./workout-api/Pipfile.lock .
+COPY ../workout-api/Pipfile .
+COPY ../workout-api/Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
 
 
@@ -31,8 +31,8 @@ WORKDIR /home/appuser
 USER appuser
 
 # Install application into container
-COPY ./workout-api .
-COPY ./schema.graphql ..
+COPY ../workout-api .
+COPY ../schema.graphql ..
 # Run the application uvicorn app:app
 ENTRYPOINT ["python", "-m", "uvicorn", "app:app"]
 #CMD ["--directory", "directory", "8000"]
